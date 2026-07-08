@@ -96,14 +96,15 @@ killall vcfsd > /dev/null 2>&1 || true
 echo ""
 if [ "$FAIL_COUNT" -eq 0 ]; then
     echo -e "\033[1;32m>>> ALL 9 TESTS PASSED SUCCESSFULLY! <<<\033[0m"
+    echo "VCFS_TEST_RESULT=PASS"
 else
     echo -e "\033[1;31m>>> $FAIL_COUNT TEST(S) FAILED <<<\033[0m"
+    echo "VCFS_TEST_RESULT=FAIL"
 fi
 echo ""
 
-echo "Welcome to the VCFS Interactive Shell."
-echo "You can continue testing manually if you wish."
-exec /bin/sh
+# Power off the VM so the host script can check the result
+poweroff -f
 EOF
 chmod +x "$INITRAMFS_DIR/init"
 
@@ -140,6 +141,8 @@ echo ""
 echo "[*] Booting QEMU with Automated Tests..."
 echo ""
 
+QEMU_LOG=/tmp/vcfs-qemu-output.log
+
 cd /workspace
 qemu-system-x86_64 \
     -m 512M \
@@ -147,4 +150,22 @@ qemu-system-x86_64 \
     -initrd "$INITRAMFS_IMG" \
     -append "console=ttyS0 quiet" \
     -nographic \
-    -drive file=/tmp/vcfs-test.img,format=raw,if=ide
+    -no-reboot \
+    -drive file=/tmp/vcfs-test.img,format=raw,if=ide \
+    2>&1 | tee "$QEMU_LOG"
+
+# ── 5. Check test results from QEMU output ────────────────────────────────────
+if grep -q "VCFS_TEST_RESULT=PASS" "$QEMU_LOG"; then
+    echo ""
+    echo "[*] CI Result: ALL TESTS PASSED"
+    exit 0
+elif grep -q "VCFS_TEST_RESULT=FAIL" "$QEMU_LOG"; then
+    echo ""
+    echo "[!] CI Result: TESTS FAILED"
+    exit 1
+else
+    echo ""
+    echo "[!] CI Result: Could not determine test outcome (VM may have crashed)"
+    exit 2
+fi
+

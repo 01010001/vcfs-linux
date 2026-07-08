@@ -1,9 +1,19 @@
+# VCFS Development Environment
+#
+# Privileged mode is REQUIRED because:
+#   - build-alpine.sh uses 'mount -o loop' and 'chroot' to build the Alpine VM image
+#   - QEMU requires /dev/kvm for hardware acceleration
+#
+# To override the kernel version:
+#   KERNEL_VERSION=6.x.y-z.fcNN.x86_64 docker compose build
+#   KERNEL_VERSION=6.x.y-z.fcNN.x86_64 docker compose run --rm --service-ports kernel-dev bash
+
 services:
   kernel-dev:
     build:
       context: .
       args:
-        KERNEL_VERSION: "6.8.5-301.fc40.x86_64"
+        KERNEL_VERSION: "${KERNEL_VERSION:-6.8.5-301.fc40.x86_64}"
     image: kernel-dev:fc40
     volumes:
       - ../tests:/workspace/tests
@@ -15,11 +25,11 @@ services:
       - ./build-alpine.sh:/workspace/build-alpine.sh
       - ./qemu-setup.sh:/workspace/qemu-setup.sh
     ports:
-      - "6080:6080"
+      - "6080:6080"  # noVNC web interface for GUI testing
     devices:
       - /dev/kvm:/dev/kvm
-    privileged: true
+    privileged: true  # Required for mount/chroot in build-alpine.sh
     stdin_open: true
     tty: true
     environment:
-      - KERNEL_VERSION=6.8.5-301.fc40.x86_64
+      - KERNEL_VERSION=${KERNEL_VERSION:-6.8.5-301.fc40.x86_64}

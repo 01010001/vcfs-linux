@@ -12,7 +12,7 @@
 
 * **Transparent Versioning**: Every time a file is modified, the kernel automatically preserves the previous state. No manual `git commit` or backup commands are required.
 * **Built-in Trash Bin (Undelete)**: Deleting a file (`rm`) does not permanently erase it. Instead, the inode is marked as deleted and moved to an invisible trash bin. Files can be seamlessly restored via their inode number.
-* **Delta Compression**: A background daemon continuously scans for file versions and aggressively compresses them by computing binary diffs (deltas), significantly saving disk space.
+* **Delta Compression (Planned)**: A background daemon will continuously scan for file versions and compress them by computing binary diffs (deltas), saving disk space. (Currently, only the IOCTL interface is implemented).
 * **Full-Featured GUI**: A native GTK3-based "Time Machine" application provides an intuitive visual interface to navigate files, inspect version timelines, view diffs, and restore deleted files.
 
 ---

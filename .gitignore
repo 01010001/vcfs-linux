@@ -36,6 +36,9 @@
 *.x86_64
 *.hex
 mkfs.simplefs
+mkfs.vcfs
+vcfs
+vcfsd
 
 # Debug files
 *.dSYM/

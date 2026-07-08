@@ -28,9 +28,9 @@ sudo apt install build-essential linux-headers-$(uname -r) zlib1g-dev libgtk-3-d
 
 Çekirdek modülleri, her zaman hedef makinenin **kendi** Kernel versiyonuna göre derlenmelidir.
 
-1. `src-vcfs` dizinine gidin ve modülü derleyin:
+1. `kernel-module` dizinine gidin ve modülü derleyin:
 ```bash
-cd dev-env/src-vcfs
+cd kernel-module
 make clean
 make
 ```
@@ -64,7 +64,7 @@ Kullanıcıların `vcfs log`, `vcfs checkout` gibi komutları herhangi bir dizin
 
 1. CLI aracını derleyin:
 ```bash
-cd dev-env/vcfs-cli
+cd cli
 make clean
 make
 ```
@@ -85,7 +85,7 @@ Daemon aracı (`vcfsd`), sistemin arka planında sürekli çalışması gereken 
 
 1. Daemon aracını derleyin:
 ```bash
-cd dev-env/vcfs-daemon
+cd daemon
 make clean
 make
 ```
@@ -134,7 +134,7 @@ Masaüstü ortamı (GNOME, XFCE vb.) kurulu bir Linux makinesinde GUI'yi derleyi
 
 1. GUI aracını derleyin:
 ```bash
-cd dev-env/vcfs-gui
+cd gui
 make clean
 make
 ```
@@ -155,7 +155,7 @@ nano ~/.local/share/applications/vcfs-gui.desktop
 [Desktop Entry]
 Name=VCFS Time Machine
 Comment=Version Control File System GUI
-Exec=/tam/yol/dev-env/vcfs-gui/vcfs-gui
+Exec=/tam/yol/gui/vcfs-gui
 Terminal=false
 Type=Application
 Categories=Utility;System;

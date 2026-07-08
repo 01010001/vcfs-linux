@@ -1,6 +1,17 @@
 #!/bin/bash
 set -e
 
+# This script requires privileged Docker mode (mount -o loop, chroot).
+# Run via: docker compose run --rm --service-ports kernel-dev bash
+# Then:    /workspace/build-alpine.sh
+if ! mount -t tmpfs tmpfs /dev/null 2>/dev/null; then
+    echo "ERROR: This script requires Docker '--privileged' mode or equivalent capabilities."
+    echo "       The docker-compose.yml should already set 'privileged: true'."
+    echo "       If running manually: docker run --privileged ..."
+    exit 1
+fi
+umount /dev/null 2>/dev/null || true
+
 ALPINE_VER="3.19"
 ALPINE_FULL_VER="3.19.1"
 ROOTFS_URL="https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VER}/releases/x86_64/alpine-minirootfs-${ALPINE_FULL_VER}-x86_64.tar.gz"

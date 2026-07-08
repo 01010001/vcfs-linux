@@ -89,5 +89,5 @@ module_init(vcfs_init);
 module_exit(vcfs_exit);
 
 MODULE_LICENSE("Dual BSD/GPL");
-MODULE_AUTHOR("National Cheng Kung University, Taiwan");
-MODULE_DESCRIPTION("a simple file system");
+MODULE_AUTHOR("Ahmet (VCFS Project)");
+MODULE_DESCRIPTION("VCFS (Version Control File System)");

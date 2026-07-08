@@ -1,5 +1,9 @@
 FROM fedora:40
 
+# Default kernel version for the build environment.
+# Override at build time if a different version is needed:
+#   docker compose build --build-arg KERNEL_VERSION=<version>
+# To find available versions: dnf list --available kernel-devel
 ARG KERNEL_VERSION=6.8.5-301.fc40.x86_64
 
 RUN dnf update -y && dnf install -y \
