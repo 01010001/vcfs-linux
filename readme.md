@@ -31,6 +31,8 @@ The VCFS project is divided into several decoupled components:
 
 ## 🖥️ Graphical Interface (GUI)
 
+![VCFS GUI](assets/vcfs-ui.png)
+
 VCFS includes a beautiful, fully functional GTK3 visual client with the following features:
 - **File Explorer**: Browse the VCFS mount point with dynamic icons for files and folders.
 - **Version Timeline**: Click on any file to instantly view a chronological timeline of all its historical versions, including modification dates and sizes.
